@@ -1,0 +1,82 @@
+* {
+  padding: 0;
+  margin: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+body {
+  background-color: #464646;
+  height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.calculator {
+  height: 435px;
+  width: 300px;
+}
+
+input {
+  width: 100%;
+  height: 35px;
+  font-size: 30px;
+  border: none;
+  margin: 5px 0;
+  margin: 0;
+  outline: none;
+}
+
+.output {
+  width: 100%;
+  height: 35px;
+  font-size: 30px;
+  background-color: #fff;
+  direction: rtl;
+}
+
+.buttonsArea {
+  height: 350px;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (auto)[4];
+      grid-template-columns: repeat(4, auto);
+  -ms-grid-rows: (auto)[5];
+      grid-template-rows: repeat(5, auto);
+  gap: 5px;
+}
+
+.button {
+  background-color: dimgray;
+  border: none;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  color: #fff;
+}
+
+.button:hover {
+  cursor: pointer;
+}
+
+.column-span {
+  grid-column: span 2;
+}
+
+.row-span {
+  grid-row: span 2;
+}
+/*# sourceMappingURL=style.css.map */
