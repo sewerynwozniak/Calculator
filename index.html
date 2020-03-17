@@ -11,192 +11,27 @@
         <input class="input" id="input" type="text">
         <label for="input" ><div class='output'></div></label>
         <div class="buttonsArea">
-            <button class="button column-span">C</button>
-            <button class="button">/</button>
-            <button class="button">X</button>
-            <button class="button">7</button>
-            <button class="button">8</button>
-            <button class="button">9</button>
-            <button class="button">-</button>
-            <button class="button">4</button>
-            <button class="button">5</button>
-            <button class="button">6</button>
-            <button class="button">+</button>
-            <button class="button">1</button>
-            <button class="button">2</button>
-            <button class="button">3</button>
-            <button class="button row-span">=</button>
-            <button class="button column-span">0</button>
-            <button class="button">.</button>
+            <button class="button column-span backspace">C</button>
+            <button class="button inputButton">/</button>
+            <button class="button inputButton">X</button>
+            <button class="button inputButton">7</button>
+            <button class="button inputButton">8</button>
+            <button class="button inputButton">9</button>
+            <button class="button inputButton">-</button>
+            <button class="button inputButton">4</button>
+            <button class="button inputButton">5</button>
+            <button class="button inputButton">6</button>
+            <button class="button inputButton">+</button>
+            <button class="button inputButton">1</button>
+            <button class="button inputButton">2</button>
+            <button class="button inputButton">3</button>
+            <button class="button row-span equal">=</button>
+            <button class="button inputButton column-span">0</button>
+            <button class="button inputButton">.</button>
         </div>
-    
+    </div>
 </body>
 
+<script src="script.js"></script>
 
-<script>
-
-const buttons = document.querySelectorAll('.button');
-const input = document.querySelector('input');
-const output = document.querySelector('.output');
-let dotPresent =false;
-let target;
-let arithmArray =[];
-
-
-//let lastNumberRegex = /[-+X/]?(\d+[.]?\d*?)[-+X/]?$/;    
-let lastNumberRegex = /[-+X/]?(\d+[.]?\d*?)[-+X/]?$/;    
-
-buttons.forEach(button=>button.addEventListener('click', screenInput));
-window.addEventListener('keydown', keyboardInput);
-input.addEventListener('keydown', ignoreInput);
-
-
-function ignoreInput(e){
-e.preventDefault();
-}
-
-//Prevents from typing more than one dot in one operand
-function dotChecker(){
-
-let dotRegex = /[-+X/]?\d+?[.](\d+)?$/; 
-if(dotRegex.test(input.value) &&  target == '.'){
-return true;
-}}
-
-
-//Prevents from typing operation before operands and more than one operation
-function operationsChecker(){
-    let moreOperationsRegex = /\d[-+X/]$/;
-//Prevents from typing operation before operands  
-if(input.value == '' &&  /[-+X/]/.test(target)) return true;
-//Prevents from typing more than one operation
-if(moreOperationsRegex.test(input.value) && /[-+X/]/.test(target)) return true
-}
-
-function evaluate(){
-   
-if(arithmArray.length == 2){
-    input.value = '';
-    output.innerText = (arithmArray[0]).toFixed(2);
-    return arithmArray.length=0
-}
-
-    // First loop does multiplying and diving and second adding and substracting
-    for(let i=0;i<arithmArray.length;i++){
-    if(/[X]/.test(arithmArray[i])){
-        arithmArray[i-1] = arithmArray[i-1] * arithmArray[i+1]
-        arithmArray.splice(i, 2);
-    }
-    if(/[/]/.test(arithmArray[i])){
-        arithmArray[i-1] = arithmArray[i-1] / arithmArray[i+1]
-        arithmArray.splice(i, 2);
-    }
-}
-
-for(let i =0;i<arithmArray.length;i++){
-        if(/[+]/.test(arithmArray[i])){
-        arithmArray[i-1] = arithmArray[i-1] + arithmArray[i+1]
-        arithmArray.splice(i, 2);
-    }
-        if(/[-]/.test(arithmArray[i])){
-        arithmArray[i-1] = arithmArray[i-1] - arithmArray[i+1]
-        arithmArray.splice(i, 2);
-    }
-    }
-
-    //Show result and clear input
-    
-    input.value = '';
-    output.innerText = (arithmArray[0]).toFixed(2);
-    return arithmArray.length=0
-
-}
-
-
-
-function screenInput(e){
-
-target = e.target.innerText;
-
-//Backspace
-if(target == 'C'){
-    // If last element is dot or number delete from input but not from array as it's not added yet in array, calculator adds number after clicking operation buttons
-  if(/(\d|\.)/.test(input.value.charAt(input.value.length-1))){
-    return input.value = input.value.slice(0, input.value.length-1)
-  }else{
-    // If last element is operation sign delete two last elements from array 
-    arithmArray.splice(-2,2);
-    return input.value = input.value.slice(0, input.value.length-1)
-  } 
-} 
-
-//Equals
-if(target == '='){
-    
-    if(input.value == '') return;
-
-if(/[^-+X/]$/.test(input.value)){
-    arithmArray.push(parseFloat(input.value.match(lastNumberRegex)[1]))
-console.log(arithmArray)
-return evaluate()
-
-}else{
-    return evaluate()
-}
-}
-
-
-
-// Typing from screen
-
-    //Dot Checker
-    if(dotChecker()) return;
-    if(operationsChecker()) return
-
-   
-
-input.value += target;
-output.innerText = '';
-
-if(/[-+X/]/.test(target)){
-
-
-arithmArray.push(parseFloat(input.value.match(lastNumberRegex)[1]))
-arithmArray.push(target)
-console.log(arithmArray)
-}
-
-
-
-}
-
-
-
-
-
-
-
-
-function keyboardInput(e){
-
-target = e.code;
-if(dotChecker()) return;
-
-//Numbers
-if(target.includes('Digit')){
- return input.value += target.slice(-1)
-}
-//Dot
-if(target =='Period'){
-return input.value += '.'
-}
-//Backspace
-if(target == 'Backspace'){
-return input.value = input.value.slice(0, input.value.length-1)
-}
-
-}
-
-
-</script>
 </html>
