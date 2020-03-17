@@ -16,7 +16,6 @@ equal.addEventListener('click', equalFunction);
 backspace.addEventListener('click', backspaceFunction);
 
 
-
 function ignoreInput(e){
 e.preventDefault();
 }
@@ -25,9 +24,10 @@ e.preventDefault();
 //Prevents from typing more than one dot in one operand and dot at the beginning
 function dotChecker(){
 let dotRegex = /[-+X/]?\d+?[.](\d+)?$/; 
-if(dotRegex.test(input.value) &&  target == '.') return true
-if(input.value == '' && target == '.' ) return true
+if(dotRegex.test(input.value) &&  (target == '.' || target == 'Period')) return true
+if(input.value == '' && (target == '.' || target == 'Period')) return true
 }
+
 
 
 //Prevents from typing operation before operands and more than one operation
@@ -117,28 +117,10 @@ arithmArray.push(target)
 }}
 
 
-
-
-
-
-
-
 function keyboardInput(e){
 
-target = e.code;
-if(dotChecker()) return;
-
-//Numbers
-if(target.includes('Digit')){
- return input.value += target.slice(-1)
-}
-//Dot
-if(target =='Period'){
-return input.value += '.'
-}
-//Backspace
-if(target == 'Backspace'){
-return input.value = input.value.slice(0, input.value.length-1)
+e.preventDefault()
 }
 
-}
+
+
