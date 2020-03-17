@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kalkulator</title>
+    <title>Calculator</title>
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
@@ -43,6 +43,7 @@ let target;
 let arithmArray =[];
 
 
+//let lastNumberRegex = /[-+X/]?(\d+[.]?\d*?)[-+X/]?$/;    
 let lastNumberRegex = /[-+X/]?(\d+[.]?\d*?)[-+X/]?$/;    
 
 buttons.forEach(button=>button.addEventListener('click', screenInput));
@@ -72,36 +73,15 @@ if(input.value == '' &&  /[-+X/]/.test(target)) return true;
 if(moreOperationsRegex.test(input.value) && /[-+X/]/.test(target)) return true
 }
 
+function evaluate(){
+   
+if(arithmArray.length == 2){
+    input.value = '';
+    output.innerText = (arithmArray[0]).toFixed(2);
+    return arithmArray.length=0
+}
 
-function screenInput(e){
-
-target = e.target.innerText;
-
-//Backspace
-if(target == 'C'){
-    // If last element is dot or number delete from input but not from array as it's not added yet in array, calculator adds number after clicking operation buttons
-  if(/(\d|\.)/.test(input.value.charAt(input.value.length-1))){
-    return input.value = input.value.slice(0, input.value.length-1)
-  }else{
-    // If last element is operation sign delete two last elements from array 
-    arithmArray.splice(-2,2);
-    return input.value = input.value.slice(0, input.value.length-1)
-  } 
-} 
-
-//Equals
-if(target == '='){
-    
-    if(input.value == '') return;
-
-
-arithmArray.push(parseFloat(input.value.match(lastNumberRegex)[1]))
-
-
-
-// First loop does multiplying and diving and second adding and substracting
-
-
+    // First loop does multiplying and diving and second adding and substracting
     for(let i=0;i<arithmArray.length;i++){
     if(/[X]/.test(arithmArray[i])){
         arithmArray[i-1] = arithmArray[i-1] * arithmArray[i+1]
@@ -124,7 +104,6 @@ for(let i =0;i<arithmArray.length;i++){
     }
     }
 
-  
     //Show result and clear input
     
     input.value = '';
@@ -132,6 +111,41 @@ for(let i =0;i<arithmArray.length;i++){
     return arithmArray.length=0
 
 }
+
+
+
+function screenInput(e){
+
+target = e.target.innerText;
+
+//Backspace
+if(target == 'C'){
+    // If last element is dot or number delete from input but not from array as it's not added yet in array, calculator adds number after clicking operation buttons
+  if(/(\d|\.)/.test(input.value.charAt(input.value.length-1))){
+    return input.value = input.value.slice(0, input.value.length-1)
+  }else{
+    // If last element is operation sign delete two last elements from array 
+    arithmArray.splice(-2,2);
+    return input.value = input.value.slice(0, input.value.length-1)
+  } 
+} 
+
+//Equals
+if(target == '='){
+    
+    if(input.value == '') return;
+
+if(/[^-+X/]$/.test(input.value)){
+    arithmArray.push(parseFloat(input.value.match(lastNumberRegex)[1]))
+console.log(arithmArray)
+return evaluate()
+
+}else{
+    return evaluate()
+}
+}
+
+
 
 // Typing from screen
 
